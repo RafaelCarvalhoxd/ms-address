@@ -4,6 +4,7 @@ import { Pool } from 'pg';
 import 'dotenv/config';
 import env from '../env/env';
 import { users } from './schemas/user';
+import { address } from './schemas/address';
 
 const pool = new Pool({
   host: 'localhost',
@@ -27,5 +28,6 @@ pool
 export const db = drizzle(pool, {
   schema: {
     users,
+    address
   },
 });
