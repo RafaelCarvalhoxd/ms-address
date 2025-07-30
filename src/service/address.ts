@@ -11,6 +11,17 @@ export class AddressService {
     return this.addressRepository.findAllByUserId(userId);
   }
 
+  async findById(id: string, userId: string): Promise<Address> {
+    const address = await this.addressRepository.findById(id);
+    if (!address) {
+      throw new NotFoundError('Address not found');
+    }
+    if (address.getUserId() !== userId) {
+      throw new UnauthorizedError('Unauthorized to access this address');
+    }
+    return address;
+  }
+
   async create(dto: CreateAddressDto, userId: string): Promise<Address> {
     const address = new Address(
       randomUUID(),
