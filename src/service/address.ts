@@ -50,4 +50,16 @@ export class AddressService {
     );
     return this.addressRepository.update(updatedAddress);
   }
+
+  async delete(id: string, userId: string): Promise<void> {
+    const existingAddress = await this.addressRepository.findById(id);
+    if (!existingAddress) {
+      throw new NotFoundError('Address not found');
+    }
+    if (existingAddress.getUserId() !== userId) {
+      throw new UnauthorizedError('Unauthorized to delete this address');
+    }
+
+    await this.addressRepository.delete(id);
+  }
 }

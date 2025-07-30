@@ -5,4 +5,5 @@ export interface IAddressRepository {
   findById(id: string): Promise<Address | null>;
   create(address: Address): Promise<Address>;
   update(address: Address): Promise<Address>;
+  delete(id: string): Promise<void>;
 }

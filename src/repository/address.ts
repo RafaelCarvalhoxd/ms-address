@@ -63,4 +63,11 @@ export class AddressRepository implements IAddressRepository {
 
     return addressMapper(row);
   }
+
+  async delete(id: string): Promise<void> {
+    await db
+      .delete(address)
+      .where(eq(address.id, id))
+      .execute();
+  }
 }

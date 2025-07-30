@@ -35,4 +35,14 @@ addressRoutes.put('/:id', async (req, res, next) => {
   }
 });
 
+addressRoutes.delete('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await addressController.delete(id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default addressRoutes;
