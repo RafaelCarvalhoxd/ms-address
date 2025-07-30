@@ -2,7 +2,6 @@ import { IAddressRepository } from '../interfaces/repository/address';
 import { Address } from '../entity/address';
 import { CreateAddressDto, UpdateAddressDto } from '@/dto/address';
 import { NotFoundError, UnauthorizedError } from '@/config/errors/http-error';
-import { randomUUID } from 'node:crypto';
 
 export class AddressService {
   constructor(private readonly addressRepository: IAddressRepository) {}
@@ -24,7 +23,7 @@ export class AddressService {
 
   async create(dto: CreateAddressDto, userId: string): Promise<Address> {
     const address = new Address(
-      randomUUID(),
+      null,
       userId,
       dto.zip,
       dto.streetAddress,
