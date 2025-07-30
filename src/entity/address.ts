@@ -5,11 +5,11 @@ export class Address {
       private readonly zip: string,
       private readonly streetAddress: string,
       private readonly number: number,
+      private readonly neighborhood: string,
+      private readonly city: string,
+      private readonly state: string,
       private readonly additionalInformation?: string,
-      private readonly reference?: string,
-      private readonly neighborhood?: string,
-      private readonly city?: string,
-      private readonly state?: string
+      private readonly reference?: string
     ) {}
   
     getId(): string {
@@ -50,6 +50,21 @@ export class Address {
   
     getState(): string | undefined {
       return this.state;
+    }
+
+    toJSON() {
+      return {
+        id: this.id,
+        userId: this.userId,
+        zip: this.zip,
+        streetAddress: this.streetAddress,
+        number: this.number,
+        additionalInformation: this.additionalInformation,
+        reference: this.reference,
+        neighborhood: this.neighborhood,
+        city: this.city,
+        state: this.state,
+      };
     }
   }
   

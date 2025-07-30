@@ -3,14 +3,14 @@ import { Address } from '../../entity/address';
 export function addressMapper(row: any): Address {
   return new Address(
     row.id,
-    row.user_id,
+    row.userId,
     row.zip,
-    row.street_address,
+    row.streetAddress,
     row.number,
-    row.additional_information,
-    row.reference,
     row.neighborhood,
     row.city,
-    row.state
+    row.state,
+    row.additionalInformation,
+    row.reference
   );
 }
