@@ -17,6 +17,16 @@ export class AddressRepository implements IAddressRepository {
     
   }
 
+  async findById(id: string): Promise<Address | null> {
+    const rows = await db
+      .select()
+      .from(address)
+      .where(eq(address.id, id))
+      .execute();
+
+    return rows.length > 0 ? addressMapper(rows[0]) : null;
+  }
+
   async create(entity: Address): Promise<Address> {
     const [row] = await db.insert(address).values({
       id: entity.getId(),
@@ -30,6 +40,26 @@ export class AddressRepository implements IAddressRepository {
       additionalInformation: entity.getAdditionalInformation(),
       reference: entity.getReference(),
     }).returning().execute();
+
+    return addressMapper(row);
+  }
+
+  async update(entity: Address): Promise<Address> {
+    const [row] = await db
+      .update(address)
+      .set({
+        zip: entity.getZip(),
+        streetAddress: entity.getStreetAddress(),
+        number: entity.getNumber(),
+        neighborhood: entity.getNeighborhood(),
+        city: entity.getCity(),
+        state: entity.getState(),
+        additionalInformation: entity.getAdditionalInformation(),
+        reference: entity.getReference(),
+      })
+      .where(eq(address.id, entity.getId()))
+      .returning()
+      .execute();
 
     return addressMapper(row);
   }

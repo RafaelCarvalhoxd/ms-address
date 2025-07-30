@@ -8,4 +8,15 @@ export type CreateAddressDto = {
     city: string;
     state: string;
   };
+
+export type UpdateAddressDto = {
+    zip?: string;
+    streetAddress?: string;
+    number?: number;
+    additionalInformation?: string;
+    reference?: string;
+    neighborhood?: string;
+    city?: string;
+    state?: string;
+  };
   
