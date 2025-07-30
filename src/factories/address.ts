@@ -3,7 +3,9 @@ import { AddressService } from '../service/address';
 import { AddressController } from '../controller/address';
 
 export const makeAddress = () => {
-  const repository = new AddressRepository();
-  const service = new AddressService(repository);
-  return new AddressController(service);
+  return new AddressController(
+    new AddressService(
+      new AddressRepository()
+    )
+  );
 };

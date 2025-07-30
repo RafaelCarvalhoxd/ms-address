@@ -1,7 +1,6 @@
 import { Address } from '../../entity/address';
 
-// Interface que representa os dados retornados pela query do banco
-interface AddressRow {
+type AddressRow = {
   id: string;
   userId: string;
   zip: string;
@@ -10,8 +9,8 @@ interface AddressRow {
   neighborhood: string;
   city: string;
   state: string;
-  additionalInformation: string | null;
-  reference: string | null;
+  additionalInformation?: string | null;
+  reference?: string | null;
 }
 
 export function addressMapper(row: AddressRow): Address {
@@ -24,7 +23,7 @@ export function addressMapper(row: AddressRow): Address {
     row.neighborhood,
     row.city,
     row.state,
-    row.additionalInformation || undefined,
-    row.reference || undefined
+    row.additionalInformation,
+    row.reference
   );
 }
