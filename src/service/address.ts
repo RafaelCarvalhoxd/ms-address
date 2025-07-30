@@ -1,6 +1,5 @@
 import { IAddressRepository } from '../interfaces/repository/address';
 import { Address } from '../entity/address';
-import { CreateAddressDto, UpdateAddressDto } from '@/dto/address';
 import { NotFoundError, UnauthorizedError } from '@/config/errors/http-error';
 
 export class AddressService {
@@ -21,23 +20,45 @@ export class AddressService {
     return address;
   }
 
-  async create(dto: CreateAddressDto, userId: string): Promise<Address> {
+  async create(
+    userId: string,
+    zip: string,
+    streetAddress: string,
+    number: number,
+    neighborhood: string,
+    city: string,
+    state: string,
+    additionalInformation?: string | undefined,
+    reference?: string | undefined 
+    
+  ): Promise<Address> {
     const address = new Address(
       null,
       userId,
-      dto.zip,
-      dto.streetAddress,
-      dto.number,
-      dto.neighborhood,
-      dto.city,
-      dto.state,
-      dto.additionalInformation,
-      dto.reference
+      zip,
+      streetAddress,
+      number,
+      neighborhood,
+      city,
+      state,
+      additionalInformation,
+      reference
     );
     return this.addressRepository.create(address);
   }
 
-  async update(id: string, dto: UpdateAddressDto, userId: string): Promise<Address> {
+  async update(
+    id: string,
+    zip: string | undefined,
+    number: number | undefined,
+    neighborhood: string | undefined,
+    city: string | undefined,
+    state: string | undefined,
+    additionalInformation: string | undefined,
+    userId: string,
+    reference?: string | undefined,
+    streetAddress?: string | undefined
+  ): Promise<Address> {
     const existingAddress = await this.addressRepository.findById(id);
     if (!existingAddress) {
       throw new NotFoundError('Address not found');
@@ -49,14 +70,14 @@ export class AddressService {
     const updatedAddress = new Address(
       id,
       userId,
-      dto.zip ?? existingAddress.getZip(),
-      dto.streetAddress ?? existingAddress.getStreetAddress(),
-      dto.number ?? existingAddress.getNumber(),
-      dto.neighborhood ?? existingAddress.getNeighborhood(),
-      dto.city ?? existingAddress.getCity(),
-      dto.state ?? existingAddress.getState(),
-      dto.additionalInformation ?? existingAddress.getAdditionalInformation(),
-      dto.reference ?? existingAddress.getReference()
+      zip ?? existingAddress.getZip(),
+      streetAddress ?? existingAddress.getStreetAddress(),
+      number ?? existingAddress.getNumber(),
+      neighborhood ?? existingAddress.getNeighborhood(),
+      city ?? existingAddress.getCity(),
+      state ?? existingAddress.getState(),
+      additionalInformation ?? existingAddress.getAdditionalInformation(),
+      reference ?? existingAddress.getReference()
     );
     return this.addressRepository.update(updatedAddress);
   }
