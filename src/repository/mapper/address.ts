@@ -1,6 +1,19 @@
 import { Address } from '../../entity/address';
 
-export function addressMapper(row: any): Address {
+type AddressRow = {
+  id: string;
+  userId: string;
+  zip: string;
+  streetAddress: string;
+  number: number;
+  neighborhood: string;
+  city: string;
+  state: string;
+  additionalInformation?: string | null;
+  reference?: string | null;
+}
+
+export function addressMapper(row: AddressRow): Address {
   return new Address(
     row.id,
     row.userId,

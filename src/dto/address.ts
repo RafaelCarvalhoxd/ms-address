@@ -19,4 +19,12 @@ export type UpdateAddressDto = {
     city?: string;
     state?: string;
   };
+
+export type FindByIdDto = {
+    id: string;
+  };
+
+export type DeleteAddressDto = {
+    id: string;
+  };
   
