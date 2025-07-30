@@ -26,8 +26,16 @@ addressRoutes.get('/:id', async (req, res, next) => {
 
 addressRoutes.post('/', async (req, res, next) => {
   try {
-    const validated = CreateAddressSchema.parse(req.body);
-    const created = await addressController.create(validated);
+    const validation = CreateAddressSchema.safeParse(req.body);
+    
+    if (!validation.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: validation.error.issues
+      });
+    }
+    
+    const created = await addressController.create(validation.data);
     res.status(201).json(created);
   } catch (err) {
     next(err);
@@ -37,8 +45,16 @@ addressRoutes.post('/', async (req, res, next) => {
 addressRoutes.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const validated = UpdateAddressSchema.parse(req.body);
-    const updated = await addressController.update(id, validated);
+    const validation = UpdateAddressSchema.safeParse(req.body);
+    
+    if (!validation.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: validation.error.issues
+      });
+    }
+    
+    const updated = await addressController.update(id, validation.data);
     res.json(updated);
   } catch (err) {
     next(err);
