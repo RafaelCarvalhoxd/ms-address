@@ -21,3 +21,11 @@ export const UpdateAddressSchema = z.object({
   city: z.string().min(1).optional(),
   state: z.string().length(2).optional(),
 });
+
+export const AddressIdSchema = z.object({
+  id: z.string().uuid({ message: 'Id inválido' })
+});
+
+export const DeleteAddressSchema = AddressIdSchema;
+
+export const FindAddressByIdSchema = AddressIdSchema;
