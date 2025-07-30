@@ -1,6 +1,20 @@
 import { Address } from '../../entity/address';
 
-export function addressMapper(row: any): Address {
+// Interface que representa os dados retornados pela query do banco
+interface AddressRow {
+  id: string;
+  userId: string;
+  zip: string;
+  streetAddress: string;
+  number: number;
+  neighborhood: string;
+  city: string;
+  state: string;
+  additionalInformation: string | null;
+  reference: string | null;
+}
+
+export function addressMapper(row: AddressRow): Address {
   return new Address(
     row.id,
     row.userId,
@@ -10,7 +24,7 @@ export function addressMapper(row: any): Address {
     row.neighborhood,
     row.city,
     row.state,
-    row.additionalInformation,
-    row.reference
+    row.additionalInformation || undefined,
+    row.reference || undefined
   );
 }
