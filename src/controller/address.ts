@@ -8,6 +8,10 @@ export class AddressController {
     return this.service.listByUser('6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
   }
 
+  findById(id: string) {
+    return this.service.findById(id, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
+  }
+
   create(dto: CreateAddressDto) {
     return this.service.create(dto, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
   }

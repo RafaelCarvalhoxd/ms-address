@@ -14,6 +14,16 @@ addressRoutes.get('/', async (req, res, next) => {
   }
 });
 
+addressRoutes.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await addressController.findById(id);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+});
+
 addressRoutes.post('/', async (req, res, next) => {
   try {
     const validated = CreateAddressSchema.parse(req.body);
