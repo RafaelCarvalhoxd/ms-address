@@ -1,6 +1,6 @@
 export class Address {
     constructor(
-      private readonly id: string,
+      private readonly id: string | null,
       private readonly userId: string,
       private readonly zip: string,
       private readonly streetAddress: string,
