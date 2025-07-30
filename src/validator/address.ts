@@ -23,7 +23,7 @@ export const UpdateAddressSchema = z.object({
 });
 
 export const AddressIdSchema = z.object({
-  id: z.string().uuid({ message: 'Id inválido' })
+  id: z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, 'Id inválido')
 });
 
 export const DeleteAddressSchema = AddressIdSchema;
