@@ -14,5 +14,23 @@ export class AddressRepository implements IAddressRepository {
       .execute();
 
     return rows.map(addressMapper);
+    
+  }
+
+  async create(entity: Address): Promise<Address> {
+    const [row] = await db.insert(address).values({
+      id: entity.getId(),
+      userId: entity.getUserId(),
+      zip: entity.getZip(),
+      streetAddress: entity.getStreetAddress(),
+      number: entity.getNumber(),
+      neighborhood: entity.getNeighborhood(),
+      city: entity.getCity(),
+      state: entity.getState(),
+      additionalInformation: entity.getAdditionalInformation(),
+      reference: entity.getReference(),
+    }).returning().execute();
+
+    return addressMapper(row);
   }
 }
