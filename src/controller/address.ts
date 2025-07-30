@@ -15,4 +15,8 @@ export class AddressController {
   update(id: string, dto: UpdateAddressDto) {
     return this.service.update(id, dto, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
   }
+
+  delete(id: string) {
+    return this.service.delete(id, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
+  }
 }
