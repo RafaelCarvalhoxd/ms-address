@@ -1,6 +1,6 @@
 export class Address {
     constructor(
-      private readonly id: string,
+      private readonly id: string | null,
       private readonly userId: string,
       private readonly zip: string,
       private readonly streetAddress: string,
@@ -50,21 +50,6 @@ export class Address {
   
     getState(): string | undefined {
       return this.state;
-    }
-
-    toJSON() {
-      return {
-        id: this.id,
-        userId: this.userId,
-        zip: this.zip,
-        streetAddress: this.streetAddress,
-        number: this.number,
-        additionalInformation: this.additionalInformation,
-        reference: this.reference,
-        neighborhood: this.neighborhood,
-        city: this.city,
-        state: this.state,
-      };
     }
   }
   

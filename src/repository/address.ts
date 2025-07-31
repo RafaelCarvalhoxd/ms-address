@@ -29,7 +29,6 @@ export class AddressRepository implements IAddressRepository {
 
   async create(entity: Address): Promise<Address> {
     const [row] = await db.insert(address).values({
-      id: entity.getId(),
       userId: entity.getUserId(),
       zip: entity.getZip(),
       streetAddress: entity.getStreetAddress(),
@@ -45,6 +44,11 @@ export class AddressRepository implements IAddressRepository {
   }
 
   async update(entity: Address): Promise<Address> {
+    const entityId = entity.getId();
+    if (!entityId) {
+      throw new Error('Cannot update address without ID');
+    }
+    
     const [row] = await db
       .update(address)
       .set({
@@ -57,7 +61,7 @@ export class AddressRepository implements IAddressRepository {
         additionalInformation: entity.getAdditionalInformation(),
         reference: entity.getReference(),
       })
-      .where(eq(address.id, entity.getId()))
+      .where(eq(address.id, entityId))
       .returning()
       .execute();
 

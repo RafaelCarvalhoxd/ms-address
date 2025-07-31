@@ -2,7 +2,7 @@ import { pgTable, uuid, varchar, text, integer } from 'drizzle-orm/pg-core';
 import { users } from './user';
 
 export const address = pgTable('address', {
-  id: uuid('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id').notNull().references(() => users.id),
   zip: varchar('zip', { length: 9 }).notNull(),
   streetAddress: text('street_address').notNull(),
