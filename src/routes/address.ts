@@ -17,7 +17,7 @@ addressRoutes.get('/', async (req, res, next) => {
 addressRoutes.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await addressController.findById(id);
+    const result = await addressController.findById({ id });
     res.json(result);
   } catch (err) {
     next(err);
@@ -64,8 +64,8 @@ addressRoutes.put('/:id', async (req, res, next) => {
 addressRoutes.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    await addressController.delete(id);
-    res.status(204).send();
+    const result = await addressController.delete({ id });
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }

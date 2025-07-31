@@ -1,18 +1,24 @@
 import { AddressService } from '../service/address';
-import { CreateAddressDto, UpdateAddressDto } from '@/dto/address';
+import {
+  CreateAddressDto,
+  UpdateAddressDto,
+  FindByIdDto,
+  DeleteAddressDto,
+} from '@/dto/address';
+import { Address } from '../entity/address';
 
 export class AddressController {
   constructor(private readonly service: AddressService) {}
 
-  list() {
+  async list(): Promise<Address[]> {
     return this.service.listByUser('6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
   }
 
-  findById(id: string) {
-    return this.service.findById(id, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
+  async findById(dto: FindByIdDto): Promise<Address> {
+    return this.service.findById(dto.id, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
   }
 
-  create(dto: CreateAddressDto) {
+  async create(dto: CreateAddressDto): Promise<Address> {
     return this.service.create(
       '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1',
       dto.zip,
@@ -26,7 +32,7 @@ export class AddressController {
     );
   }
 
-  update(id: string, dto: UpdateAddressDto) {
+  async update(id: string, dto: UpdateAddressDto): Promise<Address> {
     return this.service.update(
       id,
       dto.zip,
@@ -41,7 +47,7 @@ export class AddressController {
     );
   }
 
-  delete(id: string) {
-    return this.service.delete(id, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
+  async delete(dto: DeleteAddressDto): Promise<void> {
+    return this.service.delete(dto.id, '6cd3fb81-607b-4263-ae0b-8e2178d6a0f1');
   }
 }
