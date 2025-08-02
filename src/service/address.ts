@@ -6,7 +6,7 @@ export class AddressService {
   constructor(private readonly addressRepository: IAddressRepository) {}
 
   async listByUser(userId: string): Promise<Address[]> {
-    return this.addressRepository.findAllByUserId(userId);
+    return await this.addressRepository.findAllByUserId(userId);
   }
 
   async findById(id: string, userId: string): Promise<Address> {
@@ -44,7 +44,7 @@ export class AddressService {
       additionalInformation,
       reference
     );
-    return this.addressRepository.create(address);
+    return await this.addressRepository.create(address);
   }
 
   async update(
@@ -79,7 +79,7 @@ export class AddressService {
       additionalInformation ?? existingAddress.getAdditionalInformation(),
       reference ?? existingAddress.getReference()
     );
-    return this.addressRepository.update(updatedAddress);
+    return await this.addressRepository.update(updatedAddress);
   }
 
   async delete(id: string, userId: string): Promise<void> {
