@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { makeAddress } from '../factories/address';
-import { CreateAddressSchema, UpdateAddressSchema } from '../validator/address';
+import { CreateAddressSchema, UpdateAddressSchema, FindAddressByIdSchema, DeleteAddressSchema } from '../validator/address';
+import { CreateAddressDto, UpdateAddressDto, FindByIdDto, DeleteAddressDto } from '../dto/address';
 
 const addressRoutes = Router();
 const addressController = makeAddress();
@@ -16,8 +17,17 @@ addressRoutes.get('/', async (req, res, next) => {
 
 addressRoutes.get('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await addressController.findById({ id });
+    const params = req.params as FindByIdDto;
+    const validation = FindAddressByIdSchema.safeParse(params);
+    
+    if (!validation.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: validation.error.issues
+      });
+    }
+    
+    const result = await addressController.findById(validation.data);
     res.json(result);
   } catch (err) {
     next(err);
@@ -26,7 +36,8 @@ addressRoutes.get('/:id', async (req, res, next) => {
 
 addressRoutes.post('/', async (req, res, next) => {
   try {
-    const validation = CreateAddressSchema.safeParse(req.body);
+    const body = req.body as CreateAddressDto;
+    const validation = CreateAddressSchema.safeParse(body);
     
     if (!validation.success) {
       return res.status(400).json({
@@ -44,8 +55,9 @@ addressRoutes.post('/', async (req, res, next) => {
 
 addressRoutes.put('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const validation = UpdateAddressSchema.safeParse(req.body);
+    const { id } = req.params as FindByIdDto;
+    const body = req.body as UpdateAddressDto;
+    const validation = UpdateAddressSchema.safeParse(body);
     
     if (!validation.success) {
       return res.status(400).json({
@@ -63,8 +75,17 @@ addressRoutes.put('/:id', async (req, res, next) => {
 
 addressRoutes.delete('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await addressController.delete({ id });
+    const params = req.params as DeleteAddressDto;
+    const validation = DeleteAddressSchema.safeParse(params);
+    
+    if (!validation.success) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: validation.error.issues
+      });
+    }
+    
+    const result = await addressController.delete(validation.data);
     res.status(200).json(result);
   } catch (err) {
     next(err);
